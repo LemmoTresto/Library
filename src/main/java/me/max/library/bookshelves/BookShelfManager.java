@@ -70,7 +70,21 @@ public class BookShelfManager {
     }
 
     public YamlConfiguration loadData(){
-        return YamlConfiguration.loadConfiguration(new File(library.getDataFolder() + "/data/" + "data.yml"));
+        File dataDir = new File(library.getDataFolder() + File.separator + "data" + File.separator);
+        dataDir.mkdirs();
+
+        File dataFile = new File(dataDir, "data.yml");
+        if (!dataFile.exists()) {
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                library.error("Loading data failed!");
+                e.printStackTrace();
+                Bukkit.getPluginManager().disablePlugin(library);
+                return null;
+            }
+        }
+        return YamlConfiguration.loadConfiguration(dataFile);
     }
 
     public void saveData() throws IOException {
@@ -82,7 +96,7 @@ public class BookShelfManager {
             BookShelf bookShelf = bookShelfList.get(i);
 
             //set location
-            data.set(i + ".location.world", bookShelf.getLocation().getWorld().toString());
+            data.set(i + ".location.world", bookShelf.getLocation().getWorld().getName());
             data.set(i + ".location.x", bookShelf.getLocation().getX());
             data.set(i + ".location.y", bookShelf.getLocation().getY());
             data.set(i + ".location.z", bookShelf.getLocation().getZ());
@@ -94,7 +108,7 @@ public class BookShelfManager {
         }
 
         //save the data.
-        data.save(new File(library.getDataFolder() + "/data/", "data.yml"));
+        data.save(new File(library.getDataFolder() + File.separator + "data", "data.yml"));
 
     }
 

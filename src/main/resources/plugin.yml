@@ -1,6 +1,6 @@
 name: Library
 version: ${project.version}
-main: Library
+main: me.max.library.Library
 authors: [LemmoTresto]
 description: Allows players to put books in book shelfs!
 website: lemmotresto.com

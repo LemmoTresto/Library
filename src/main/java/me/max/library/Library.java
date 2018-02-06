@@ -39,6 +39,15 @@ public final class Library extends JavaPlugin {
         ConfigUtil.saveDefaultConfig(this);
         reloadConfig();
 
+        info("Initialising manager..");
+        try {
+            bookShelfManager = new BookShelfManager(this);
+        } catch (Exception e){
+            error("Could not initialise manager!");
+            e.printStackTrace();
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
         info("Initialising listeners..");
         try {
             new PlayerInteractListener(this);
@@ -47,7 +56,7 @@ public final class Library extends JavaPlugin {
             new BlockPlaceListener(this);
             info("Successfully initialised listeners!");
         } catch (Exception e){
-            error("Error initialising listeners");
+            error("Could not initialise listeners");
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);
         }
@@ -57,7 +66,7 @@ public final class Library extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        info("Saving data...");
+        info("Saving data..");
         try {
             bookShelfManager.saveData();
             info("Successfully saved data!");
