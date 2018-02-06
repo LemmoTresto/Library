@@ -21,12 +21,29 @@
 package me.max.library.listeners;
 
 import me.max.library.Library;
+import me.max.library.bookshelves.BookShelf;
+import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 
-public class BlockPlaceListener {
+import java.util.ArrayList;
+
+public class BlockPlaceListener implements Listener {
 
     private Library library;
 
     public BlockPlaceListener(Library library) {
         this.library = library;
+
+        this.library.getServer().getPluginManager().registerEvents(this, library);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onBlockPlacement(BlockPlaceEvent event){
+        if (!(event.getBlock().getType() == Material.BOOKSHELF)) return;
+
+        library.getBookShelfManager().addBookShelf(new BookShelf(event.getBlock().getLocation(), new ArrayList<>()));
     }
 }

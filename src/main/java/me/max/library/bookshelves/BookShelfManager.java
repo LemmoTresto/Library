@@ -73,7 +73,7 @@ public class BookShelfManager {
         return YamlConfiguration.loadConfiguration(new File(library.getDataFolder() + "/data/" + "data.yml"));
     }
 
-    public void saveData(){
+    public void saveData() throws IOException {
         //load data
         YamlConfiguration data = loadData();
 
@@ -94,12 +94,7 @@ public class BookShelfManager {
         }
 
         //save the data.
-        try {
-            data.save(new File(library.getDataFolder() + "/data/", "data.yml"));
-        } catch (IOException e) {
-            library.error("Could not save book shelf data! All data that was not saved will be lost.");
-            e.printStackTrace();
-        }
+        data.save(new File(library.getDataFolder() + "/data/", "data.yml"));
 
     }
 

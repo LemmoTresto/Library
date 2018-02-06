@@ -43,12 +43,16 @@ public class BlockBreakListener implements Listener{
     public void onBlockBreak(BlockBreakEvent event){
         if (!(event.getBlock().getType() == Material.BOOKSHELF)) return; // not a bookshelf.
 
+        //get bookshelf
         BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getBlock().getLocation());
+        //check it is not null
         if (bookShelf != null){
+            //drop items
             for (ItemStack item : bookShelf.getItems()){
-
+                bookShelf.getLocation().getWorld().dropItemNaturally(bookShelf.getLocation(), item);
             }
 
+            //remove bookshelf.
             library.getBookShelfManager().removeBookShelf(bookShelf);
         }
     }

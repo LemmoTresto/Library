@@ -57,6 +57,14 @@ public final class Library extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        info("Saving data...");
+        try {
+            bookShelfManager.saveData();
+            info("Successfully saved data!");
+        } catch (Exception e){
+            error("Could not save data! All non-saved data will be lost.");
+            e.printStackTrace();
+        }
     }
 
     public void info(String s){
