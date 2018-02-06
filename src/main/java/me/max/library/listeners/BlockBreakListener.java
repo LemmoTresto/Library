@@ -22,43 +22,34 @@ package me.max.library.listeners;
 
 import me.max.library.Library;
 import me.max.library.bookshelves.BookShelf;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
-public class PlayerInteractListener implements Listener {
+public class BlockBreakListener implements Listener{
 
     private Library library;
 
-    public PlayerInteractListener(Library library){
+    public BlockBreakListener(Library library) {
         this.library = library;
 
         this.library.getServer().getPluginManager().registerEvents(this, library);
     }
 
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event){
-        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK)) return; //return if it is not right clicking
-        if (!(event.getClickedBlock().getType() == Material.BOOKSHELF)) return; //return if it is not a book shelf.
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onBlockBreak(BlockBreakEvent event){
+        if (!(event.getBlock().getType() == Material.BOOKSHELF)) return; // not a bookshelf.
 
-        Player p = event.getPlayer();
+        BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getBlock().getLocation());
+        if (bookShelf != null){
+            for (ItemStack item : bookShelf.getItems()){
 
-        if (!p.hasPermission("library.open")) return; //return if no permission.
+            }
 
-        Inventory inv = Bukkit.createInventory(p, library.getConfig().getInt("shelf-slots"), "Bookshelf");
-
-        BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getClickedBlock().getLocation());
-
-        for (int i = 0; i < bookShelf.getItems().size(); i++){
-            inv.setItem(i, bookShelf.getItem(i));
+            library.getBookShelfManager().removeBookShelf(bookShelf);
         }
-
-        p.openInventory(inv);
-
     }
 }

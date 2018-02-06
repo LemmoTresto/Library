@@ -20,20 +20,39 @@
 
 package me.max.library;
 
+import me.max.library.bookshelves.BookShelfManager;
+import me.max.library.listeners.BlockBreakListener;
+import me.max.library.listeners.BlockPlaceListener;
+import me.max.library.listeners.InventoryInteractListener;
 import me.max.library.listeners.PlayerInteractListener;
+import me.max.library.utils.ConfigUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Library extends JavaPlugin {
 
+    private BookShelfManager bookShelfManager = null;
+
     @Override
     public void onEnable() {
+        long start = System.currentTimeMillis();
+        ConfigUtil.saveDefaultConfig(this);
+        reloadConfig();
+
         info("Initialising listeners..");
         try {
             new PlayerInteractListener(this);
+            new InventoryInteractListener(this);
+            new BlockBreakListener(this);
+            new BlockPlaceListener(this);
+            info("Successfully initialised listeners!");
         } catch (Exception e){
             error("Error initialising listeners");
             e.printStackTrace();
+            Bukkit.getPluginManager().disablePlugin(this);
         }
+
+        info("Started successfully in " + (start - System.currentTimeMillis()) + "ms");
     }
 
     @Override
@@ -46,5 +65,9 @@ public final class Library extends JavaPlugin {
 
     public void error(String s){
         getLogger().severe(s);
+    }
+
+    public BookShelfManager getBookShelfManager() {
+        return bookShelfManager;
     }
 }
