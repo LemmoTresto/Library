@@ -38,7 +38,7 @@ public class InventoryMoveItemListener implements Listener {
 
     @EventHandler
     public void onInventoryInteract(InventoryMoveItemEvent event){
-        if (!event.getDestination().getTitle().equalsIgnoreCase("Bookshelf")) return; //return if it is not an inventory from us.
+        if (!event.getDestination().getTitle().startsWith("Bookshelf - ")) return; //return if it is not an inventory from us.
 
         Material mat = event.getItem().getType();
         if (mat != Material.BOOK && mat != Material.BOOK_AND_QUILL && mat != Material.ENCHANTED_BOOK && mat != Material.KNOWLEDGE_BOOK && mat != Material.WRITTEN_BOOK) event.setCancelled(true); //we only want books.

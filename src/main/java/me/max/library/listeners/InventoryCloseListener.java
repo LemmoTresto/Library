@@ -22,6 +22,7 @@ package me.max.library.listeners;
 
 import me.max.library.Library;
 import me.max.library.bookshelves.BookShelf;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -40,10 +41,11 @@ public class InventoryCloseListener implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event){
-        if (!event.getInventory().getTitle().equalsIgnoreCase("Bookshelf")) return; // we only want our own inv.
+        if (!event.getInventory().getTitle().startsWith("Bookshelf - ")) return; // we only want our own inv.
 
         //get bookshelf.
-        BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getInventory().getLocation());
+        String[] coords = event.getInventory().getTitle().replace("Bookshelf - ", "").split(", "); //retrieve the coordinates in strings.
+        BookShelf bookShelf = library.getBookShelfManager().getBookShelf(new Location(event.getPlayer().getWorld(), Double.parseDouble(coords[0]), Double.parseDouble(coords[1]), Double.parseDouble(coords[2])));
 
         if (bookShelf == null) return;
 

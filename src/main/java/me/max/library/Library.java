@@ -23,7 +23,6 @@ package me.max.library;
 import me.max.library.bookshelves.BookShelfManager;
 import me.max.library.listeners.*;
 import me.max.library.utils.ConfigUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Library extends JavaPlugin {
@@ -42,7 +41,7 @@ public final class Library extends JavaPlugin {
         } catch (Exception e){
             error("Could not initialise manager!");
             e.printStackTrace();
-            Bukkit.getPluginManager().disablePlugin(this);
+            getServer().getPluginManager().disablePlugin(this);
         }
 
         info("Initialising listeners..");
@@ -56,10 +55,10 @@ public final class Library extends JavaPlugin {
         } catch (Exception e){
             error("Could not initialise listeners");
             e.printStackTrace();
-            Bukkit.getPluginManager().disablePlugin(this);
+            getServer().getPluginManager().disablePlugin(this);
         }
 
-        info("Started successfully in " + (start - System.currentTimeMillis()) + "ms");
+        info("Started successfully in " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override

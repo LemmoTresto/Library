@@ -31,6 +31,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.util.ArrayList;
+
 public class PlayerInteractListener implements Listener {
 
     private Library library;
@@ -43,17 +45,25 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
-        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK)) return; //return if it is not right clicking
+        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK) && !(event.getPlayer().isSneaking())) return; //return if it is not right clicking & sneaking
         if (!(event.getClickedBlock().getType() == Material.BOOKSHELF)) return; //return if it is not a book shelf.
 
         Player p = event.getPlayer();
 
         if (!p.hasPermission("library.open")) return; //return if no permission.
 
-        Inventory inv = Bukkit.createInventory(p, library.getConfig().getInt("shelf-slots"), "Bookshelf");
+        Inventory inv = Bukkit.createInventory(p, library.getConfig().getInt("shelf-slots"), "Bookshelf - " + event.getClickedBlock().getLocation().getX() + ", " + event.getClickedBlock().getLocation().getY() + ", " + event.getClickedBlock().getLocation().getZ());
 
         BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getClickedBlock().getLocation());
 
+        //look if we have data from it if not create.
+        if (bookShelf == null){
+            //create the bookshelf
+            library.getBookShelfManager().addBookShelf(new BookShelf(event.getClickedBlock().getLocation(), new ArrayList<>()));
+            bookShelf = library.getBookShelfManager().getBookShelf(event.getClickedBlock().getLocation());
+        }
+
+        //set inventory items.
         for (int i = 0; i < bookShelf.getItems().size(); i++){
             inv.setItem(i, bookShelf.getItem(i));
         }

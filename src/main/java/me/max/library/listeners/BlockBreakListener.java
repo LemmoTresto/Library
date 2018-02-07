@@ -29,6 +29,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+
 public class BlockBreakListener implements Listener{
 
     private Library library;
@@ -55,6 +57,7 @@ public class BlockBreakListener implements Listener{
         }
 
         //remove bookshelf.
+        bookShelf.setItems(new ArrayList<>());
         library.getBookShelfManager().removeBookShelf(bookShelf);
     }
 }
