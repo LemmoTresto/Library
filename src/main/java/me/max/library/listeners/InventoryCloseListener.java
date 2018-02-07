@@ -22,26 +22,26 @@ package me.max.library.listeners;
 
 import me.max.library.Library;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 
 import java.util.Arrays;
 
-public class InventoryInteractListener implements Listener {
+public class InventoryCloseListener implements Listener {
 
     private Library library;
 
-    public InventoryInteractListener(Library library){
+    public InventoryCloseListener(Library library){
         this.library = library;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onInventoryInteract(InventoryInteractEvent event){
-        if (!event.getInventory().getTitle().equalsIgnoreCase("Bookshelf")) return; //return if it is not an inventory from us.
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event){
+        if (!event.getInventory().getTitle().equalsIgnoreCase("Bookshelf")) return; // we only want our own inv.
 
-        //get book shelf then set new items.
+        if (Arrays.asList(event.getInventory().getContents()).equals(library.getBookShelfManager().getBookShelf(event.getInventory().getLocation()))) return; //the inventory has not changed.
+
+        //put new items in.
         library.getBookShelfManager().getBookShelf(event.getInventory().getLocation()).setItems(Arrays.asList(event.getInventory().getContents()));
     }
-
 }
