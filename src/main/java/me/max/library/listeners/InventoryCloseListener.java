@@ -21,6 +21,7 @@
 package me.max.library.listeners;
 
 import me.max.library.Library;
+import me.max.library.bookshelves.BookShelf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -41,9 +42,14 @@ public class InventoryCloseListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent event){
         if (!event.getInventory().getTitle().equalsIgnoreCase("Bookshelf")) return; // we only want our own inv.
 
-        if (Arrays.asList(event.getInventory().getContents()).equals(library.getBookShelfManager().getBookShelf(event.getInventory().getLocation()))) return; //the inventory has not changed.
+        //get bookshelf.
+        BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getInventory().getLocation());
+
+        if (bookShelf == null) return;
+
+        if (Arrays.asList(event.getInventory().getContents()).equals(bookShelf.getLocation())) return; //the inventory has not changed.
 
         //put new items in.
-        library.getBookShelfManager().getBookShelf(event.getInventory().getLocation()).setItems(Arrays.asList(event.getInventory().getContents()));
+        bookShelf.setItems(Arrays.asList(event.getInventory().getContents()));
     }
 }

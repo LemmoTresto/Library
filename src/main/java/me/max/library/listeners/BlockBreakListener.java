@@ -45,15 +45,16 @@ public class BlockBreakListener implements Listener{
 
         //get bookshelf
         BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getBlock().getLocation());
-        //check it is not null
-        if (bookShelf != null){
-            //drop items
-            for (ItemStack item : bookShelf.getItems()){
-                bookShelf.getLocation().getWorld().dropItemNaturally(bookShelf.getLocation(), item);
-            }
 
-            //remove bookshelf.
-            library.getBookShelfManager().removeBookShelf(bookShelf);
+        //check if it is null
+        if (bookShelf == null) return;
+
+        //drop items
+        for (ItemStack item : bookShelf.getItems()){
+            bookShelf.getLocation().getWorld().dropItemNaturally(bookShelf.getLocation(), item);
         }
+
+        //remove bookshelf.
+        library.getBookShelfManager().removeBookShelf(bookShelf);
     }
 }
