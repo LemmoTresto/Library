@@ -33,6 +33,8 @@ public class InventoryCloseListener implements Listener {
 
     public InventoryCloseListener(Library library){
         this.library = library;
+
+        this.library.getServer().getPluginManager().registerEvents(this, library);
     }
 
     @EventHandler

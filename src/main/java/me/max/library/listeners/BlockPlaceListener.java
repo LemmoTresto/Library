@@ -42,7 +42,7 @@ public class BlockPlaceListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockPlacement(BlockPlaceEvent event){
-        if (!(event.getBlock().getType() == Material.BOOKSHELF)) return;
+        if (!(event.getBlock().getType() == Material.BOOKSHELF)) return; //needs to be a bookshelf.
 
         library.getBookShelfManager().addBookShelf(new BookShelf(event.getBlock().getLocation(), new ArrayList<>()));
     }

@@ -32,6 +32,8 @@ public class InventoryMoveItemListener implements Listener {
 
     public InventoryMoveItemListener(Library library){
         this.library = library;
+
+        this.library.getServer().getPluginManager().registerEvents(this, library);
     }
 
     @EventHandler
