@@ -28,6 +28,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Library extends JavaPlugin {
 
     private BookShelfManager bookShelfManager = null;
+    private boolean loaded = false;
 
     @Override
     public void onEnable() {
@@ -42,6 +43,7 @@ public final class Library extends JavaPlugin {
             error("Could not initialise manager!");
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         info("Initialising listeners..");
@@ -56,13 +58,17 @@ public final class Library extends JavaPlugin {
             error("Could not initialise listeners");
             e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
+        loaded = true;
         info("Started successfully in " + (System.currentTimeMillis() - start) + "ms");
     }
 
     @Override
     public void onDisable() {
+        if (!loaded) return; // do not want to save when we did not startup correctly
+
         info("Saving data..");
         try {
             bookShelfManager.saveData();

@@ -29,8 +29,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-
 public class BlockBreakListener implements Listener{
 
     private Library library;
@@ -53,11 +51,17 @@ public class BlockBreakListener implements Listener{
 
         //drop items
         for (ItemStack item : bookShelf.getItems()){
-            bookShelf.getLocation().getWorld().dropItemNaturally(bookShelf.getLocation(), item);
+            if (item == null) continue;
+
+            try {
+                bookShelf.getLocation().getWorld().dropItemNaturally(bookShelf.getLocation(), item);
+            } catch (Exception e){
+                library.error("Something went wrong with dropping an item");
+                e.printStackTrace();
+            }
         }
 
         //remove bookshelf.
-        bookShelf.setItems(new ArrayList<>());
         library.getBookShelfManager().removeBookShelf(bookShelf);
     }
 }

@@ -45,7 +45,9 @@ public class PlayerInteractListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event){
-        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK) && !(event.getPlayer().isSneaking())) return; //return if it is not right clicking & sneaking
+        if (event.isCancelled()) return;
+        if (!(event.getAction() == Action.RIGHT_CLICK_BLOCK)) return; //we only want right clicking
+        if (!event.getPlayer().isSneaking()) return; //we only want sneaking people.
         if (!(event.getClickedBlock().getType() == Material.BOOKSHELF)) return; //return if it is not a book shelf.
 
         Player p = event.getPlayer();
