@@ -2,5 +2,5 @@ name: Library
 version: ${project.version}
 main: me.max.library.Library
 authors: [LemmoTresto]
-description: Allows players to put books in book shelfs!
+description: A simple plugin which allows players to put books in bookshelves!
 website: lemmotresto.com

@@ -44,6 +44,11 @@ public class BlockPlaceListener implements Listener {
     public void onBlockPlacement(BlockPlaceEvent event){
         if (!(event.getBlock().getType() == Material.BOOKSHELF)) return; //needs to be a bookshelf.
 
+        //make sure we did not load a bookshelf which does not exist.
+        BookShelf bookShelf = library.getBookShelfManager().getBookShelf(event.getBlock().getLocation());
+        if (bookShelf != null) library.getBookShelfManager().removeBookShelf(bookShelf);
+
+        //add bookshelf.
         library.getBookShelfManager().addBookShelf(new BookShelf(event.getBlock().getLocation(), new ArrayList<>()));
     }
 }

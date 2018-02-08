@@ -59,6 +59,8 @@ public class BookShelfManager {
             List<ItemStack> bookshelfItems = new ArrayList<>();
 
 
+            if (items == null) continue;
+
             //loop and add items to list
             for (String item : items.getKeys(false)){
                 bookshelfItems.add(items.getItemStack(item));
@@ -100,6 +102,7 @@ public class BookShelfManager {
             data.set(i + ".location.x", bookShelf.getLocation().getX());
             data.set(i + ".location.y", bookShelf.getLocation().getY());
             data.set(i + ".location.z", bookShelf.getLocation().getZ());
+
 
             //set items
             for (int j = 0; j < bookShelf.getItems().size(); j++){
