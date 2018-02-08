@@ -38,6 +38,7 @@ public class InventoryMoveItemListener implements Listener {
 
     @EventHandler
     public void onInventoryInteract(InventoryMoveItemEvent event){
+        library.info("Event got called .");
         if (!event.getDestination().getTitle().startsWith("Bookshelf - ")) return; //return if it is not an inventory from us.
 
         Material mat = event.getItem().getType();
