@@ -1,4 +1,6 @@
 # Welcome to the configuration file of Library!
 
-# This
+# This is the amount of slots a bookshelf can hold.
+# Warning if you decrease this after already having bookshelves with bigger slots items can be lost and or other errors can occur.
+# Note: it has to be divisible by 9. If not bukkit will throw errors at you.
 shelf-slots: 27

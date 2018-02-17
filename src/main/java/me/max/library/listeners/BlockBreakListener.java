@@ -51,8 +51,7 @@ public class BlockBreakListener implements Listener{
 
         //drop items
         for (ItemStack item : bookShelf.getItems()){
-            if (item == null) continue;
-
+            if (item == null || item.getType() == Material.AIR) continue;
             try {
                 bookShelf.getLocation().getWorld().dropItemNaturally(bookShelf.getLocation(), item);
             } catch (Exception e){

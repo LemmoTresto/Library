@@ -70,6 +70,7 @@ public class PlayerInteractListener implements Listener {
             inv.setItem(i, bookShelf.getItem(i));
         }
 
+        event.setCancelled(true);
         p.openInventory(inv);
 
     }
