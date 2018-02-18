@@ -21,26 +21,27 @@
 package me.max.library.listeners;
 
 import me.max.library.Library;
+import org.bukkit.Material;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class InventoryMoveItemListener implements Listener {
+public class InventoryClickListener implements Listener {
 
     private Library library;
 
-    public InventoryMoveItemListener(Library library){
+    public InventoryClickListener(Library library){
         this.library = library;
 
         this.library.getServer().getPluginManager().registerEvents(this, library);
     }
 
-//    @EventHandler
-//    public void onInventoryItemMove(InventoryClickEvent event){
-//        if (!event.getInventory().getTitle().startsWith("Bookshelf - ")) return; //return if it is not an inventory from us.
-//
-//        for (ItemStack item : Arrays.asList(event.getInventory().getContents())){
-//            Material mat = item.getType();
-//            if (mat != Material.BOOK && mat != Material.BOOK_AND_QUILL && mat != Material.ENCHANTED_BOOK && mat != Material.KNOWLEDGE_BOOK && mat != Material.WRITTEN_BOOK) event.setCancelled(true); //we only want books.
-//        }
-//    }
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event){
+        if (!event.getInventory().getTitle().startsWith("Bookshelf - ")) return; //return if it is not an inventory from us.
+
+        Material mat = event.getCursor().getType();
+        if (mat != Material.BOOK && mat != Material.BOOK_AND_QUILL && mat != Material.BOOKSHELF && mat != Material.ENCHANTED_BOOK && mat != Material.KNOWLEDGE_BOOK && mat != Material.WRITTEN_BOOK) event.setCancelled(true);
+    }
 
 }

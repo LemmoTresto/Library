@@ -21,7 +21,10 @@
 package me.max.library;
 
 import me.max.library.bookshelves.BookShelfManager;
-import me.max.library.listeners.*;
+import me.max.library.listeners.BlockBreakListener;
+import me.max.library.listeners.BlockPlaceListener;
+import me.max.library.listeners.InventoryCloseListener;
+import me.max.library.listeners.PlayerInteractListener;
 import me.max.library.utils.ConfigUtil;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -49,7 +52,7 @@ public final class Library extends JavaPlugin {
         info("Initialising listeners..");
         try {
             new PlayerInteractListener(this);
-            new InventoryMoveItemListener(this);
+            //new InventoryClickListener(this);
             new InventoryCloseListener(this);
             new BlockBreakListener(this);
             new BlockPlaceListener(this);
